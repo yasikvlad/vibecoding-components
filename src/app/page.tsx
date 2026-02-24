@@ -281,6 +281,24 @@ function ProjectTabs() {
   );
 }
 
+/* ===================== MARQUEE TICKER ===================== */
+function MarqueeTicker({ direction = "left", items, className = "" }: { direction?: "left" | "right"; items: { icon: ReactNode; text: string }[]; className?: string }) {
+  const doubled = [...items, ...items];
+  return (
+    <div className={`overflow-hidden py-5 sm:py-7 ${className}`}>
+      <div className={`flex gap-6 sm:gap-10 whitespace-nowrap ${direction === "left" ? "animate-marquee-left" : "animate-marquee-right"}`} style={{ width: "max-content" }}>
+        {doubled.map((item, i) => (
+          <span key={i} className="inline-flex items-center gap-2 sm:gap-3 text-sm sm:text-lg font-semibold text-white/20 hover:text-white/40 transition-colors select-none">
+            <span className="text-purple-500/40">{item.icon}</span>
+            {item.text}
+            <span className="text-white/[0.06] mx-1 sm:mx-3">|</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ===================== SCROLL REVEAL ===================== */
 function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -435,6 +453,45 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ====== MARQUEE 1 ====== */}
+      <div className="border-y border-white/[0.04] bg-[#08080f] relative overflow-hidden">
+        <MarqueeTicker
+          direction="left"
+          items={[
+            { icon: <Code className="size-4 sm:size-5" />, text: "ChatGPT" },
+            { icon: <Palette className="size-4 sm:size-5" />, text: "Midjourney" },
+            { icon: <Rocket className="size-4 sm:size-5" />, text: "Cursor" },
+            { icon: <Globe className="size-4 sm:size-5" />, text: "React" },
+            { icon: <Bot className="size-4 sm:size-5" />, text: "Telegram Bot" },
+            { icon: <Pen className="size-4 sm:size-5" />, text: "Figma" },
+            { icon: <Video className="size-4 sm:size-5" />, text: "YouTube" },
+            { icon: <Brain className="size-4 sm:size-5" />, text: "Claude AI" },
+            { icon: <Laptop className="size-4 sm:size-5" />, text: "Vercel" },
+            { icon: <Gamepad2 className="size-4 sm:size-5" />, text: "3D Games" },
+            { icon: <Sparkles className="size-4 sm:size-5" />, text: "DALL-E" },
+            { icon: <BarChart3 className="size-4 sm:size-5" />, text: "Replit" },
+          ]}
+        />
+        <MarqueeTicker
+          direction="right"
+          items={[
+            { icon: <Flame className="size-4 sm:size-5" />, text: "Vibe Coding" },
+            { icon: <Target className="size-4 sm:size-5" />, text: "Спринты" },
+            { icon: <Users className="size-4 sm:size-5" />, text: "4-8 детей" },
+            { icon: <Star className="size-4 sm:size-5" />, text: "Портфолио" },
+            { icon: <Trophy className="size-4 sm:size-5" />, text: "Результат" },
+            { icon: <DollarSign className="size-4 sm:size-5" />, text: "Фриланс" },
+            { icon: <Shield className="size-4 sm:size-5" />, text: "Гарантия" },
+            { icon: <Heart className="size-4 sm:size-5" />, text: "Творчество" },
+            { icon: <GraduationCap className="size-4 sm:size-5" />, text: "8-17 лет" },
+            { icon: <Lightbulb className="size-4 sm:size-5" />, text: "Без опыта" },
+            { icon: <Zap className="size-4 sm:size-5" />, text: "1 месяц" },
+            { icon: <BookOpen className="size-4 sm:size-5" />, text: "Онлайн" },
+          ]}
+          className="border-t border-white/[0.03]"
+        />
+      </div>
+
       {/* ====== PROBLEMS ====== */}
       <section id="problems" className="py-16 sm:py-28 px-4 sm:px-6 bg-[#0a0a14] relative">
         <div className="max-w-[1200px] mx-auto">
@@ -564,6 +621,25 @@ export default function Home() {
           <Reveal><ProgramTabs /></Reveal>
         </div>
       </section>
+
+      {/* ====== MARQUEE 2 ====== */}
+      <div className="border-y border-white/[0.04] bg-[#07070d] relative overflow-hidden">
+        <MarqueeTicker
+          direction="right"
+          items={[
+            { icon: <Rocket className="size-4 sm:size-5" />, text: "Создай игру" },
+            { icon: <Bot className="size-4 sm:size-5" />, text: "Запусти бота" },
+            { icon: <Video className="size-4 sm:size-5" />, text: "Сними видео" },
+            { icon: <Code className="size-4 sm:size-5" />, text: "Напиши код" },
+            { icon: <Palette className="size-4 sm:size-5" />, text: "Нарисуй дизайн" },
+            { icon: <Globe className="size-4 sm:size-5" />, text: "Задеплой сайт" },
+            { icon: <DollarSign className="size-4 sm:size-5" />, text: "Заработай" },
+            { icon: <Brain className="size-4 sm:size-5" />, text: "Освой ИИ" },
+            { icon: <Briefcase className="size-4 sm:size-5" />, text: "Собери портфолио" },
+            { icon: <Sparkles className="size-4 sm:size-5" />, text: "Твори" },
+          ]}
+        />
+      </div>
 
       {/* ====== HOW IT WORKS ====== */}
       <section className="py-16 sm:py-28 px-4 sm:px-6 relative">
