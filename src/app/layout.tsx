@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vibe Coding Components",
-  description: "Display Cards & Shader Lines components demo",
+  title: "Vibe Coding & AI — Превратите ребёнка из потребителя в создателя",
+  description: "За 1 месяц ребёнок создаст реальный IT-продукт с помощью ИИ. Онлайн-курсы для детей 8-17 лет. Бесплатный пробный урок.",
 };
 
 export default function RootLayout({
