@@ -1,6 +1,8 @@
 "use client";
-import { ShaderAnimation } from "@/components/ui/shader-lines";
+import { SplineScene } from "@/components/ui/splite";
+import { Spotlight } from "@/components/ui/spotlight";
 import DisplayCards from "@/components/ui/display-cards";
+import { motion, useInView } from "framer-motion";
 import {
   Sparkles, Zap, Star, Rocket, Brain, Shield, Heart, Code, Monitor,
   Smartphone, MessageCircle, Palette, GraduationCap, Trophy, Gift,
@@ -9,7 +11,7 @@ import {
   BatteryLow, Eye, TimerOff, Lightbulb, DollarSign, Flame, Award,
   FolderOpen, Video, Bot, Laptop, BarChart3, CircleDot,
   Pen, Lock, MapPin, Calendar, Megaphone, FileText, Hash,
-  PinIcon, Briefcase, UserCheck, HeartHandshake, X, Wifi
+  PinIcon, Briefcase, UserCheck, HeartHandshake, X, Wifi, Send
 } from "lucide-react";
 import { useState, useEffect, useRef, type ReactNode } from "react";
 
@@ -299,26 +301,47 @@ function MarqueeTicker({ direction = "left", items, className = "" }: { directio
   );
 }
 
-/* ===================== SCROLL REVEAL ===================== */
-function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
+/* ===================== SCROLL REVEAL (framer-motion) ===================== */
+function Reveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <div ref={ref} className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className}`}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
+      className={className}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }
+
+/* ===================== STAGGER CHILDREN WRAPPER ===================== */
+function StaggerContainer({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={{
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.1 } },
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 30, scale: 0.96 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } },
+};
 
 /* ===================== MAIN PAGE ===================== */
 export default function Home() {
@@ -358,10 +381,11 @@ export default function Home() {
               { href: "#projects", label: "Проекты" },
               { href: "#pricing", label: "Цены" },
               { href: "#faq", label: "FAQ" },
+              { href: "#contact", label: "Контакты" },
             ].map((l) => (
               <a key={l.href} href={l.href} className="text-[0.88rem] font-medium text-white/50 hover:text-white transition-colors no-underline">{l.label}</a>
             ))}
-            <a href="#trial" className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all no-underline">
+            <a href="#contact" className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all no-underline">
               Пробный урок
             </a>
           </div>
@@ -387,59 +411,61 @@ export default function Home() {
             { href: "#projects", label: "Проекты" },
             { href: "#pricing", label: "Цены" },
             { href: "#faq", label: "FAQ" },
+              { href: "#contact", label: "Контакты" },
           ].map((l) => (
             <a key={l.href} href={l.href} onClick={() => setMobileMenu(false)} className="text-lg font-semibold text-white no-underline py-1">{l.label}</a>
           ))}
-          <a href="#trial" onClick={() => setMobileMenu(false)} className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-3.5 rounded-full font-bold shadow-lg shadow-purple-500/25 no-underline mt-2">
+          <a href="#contact" onClick={() => setMobileMenu(false)} className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-3.5 rounded-full font-bold shadow-lg shadow-purple-500/25 no-underline mt-2">
             Пробный урок
           </a>
         </div>
       )}
 
-      {/* ====== HERO WITH SHADER ====== */}
+      {/* ====== HERO WITH SPLINE 3D ====== */}
       <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         <div className="absolute inset-0">
-          <ShaderAnimation />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#06060b]/30 via-transparent to-[#06060b]" />
+          <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#06060b]/60 via-[#06060b]/40 to-[#06060b]" />
         </div>
         <div className="relative z-10 px-4 sm:px-6 py-24 sm:py-32 max-w-[950px] mx-auto">
-          <div className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm text-white/60 mb-6 sm:mb-9">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm text-white/60 mb-6 sm:mb-9">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             Набор открыт --- старт 1 апреля
-          </div>
-          <h1 className="text-[clamp(2rem,6.5vw,4.8rem)] font-black leading-[1.06] tracking-[-0.04em] mb-5 sm:mb-7">
+          </motion.div>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }} className="text-[clamp(2rem,6.5vw,4.8rem)] font-black leading-[1.06] tracking-[-0.04em] mb-5 sm:mb-7">
             Превратите ребёнка<br />
             <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">из потребителя в создателя</span>
-          </h1>
-          <p className="text-[clamp(0.95rem,2.5vw,1.3rem)] text-white/50 max-w-[700px] mx-auto mb-8 sm:mb-10 leading-relaxed px-2">
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }} className="text-[clamp(0.95rem,2.5vw,1.3rem)] text-white/50 max-w-[700px] mx-auto mb-8 sm:mb-10 leading-relaxed px-2">
             За 1 месяц он создаст реальный IT-продукт (игру, сайт или бота) с помощью ИИ --- и забудет о бесполезном скроллинге
-          </p>
-          <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap mb-4">
-            <a href="#trial" className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 sm:px-10 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-bold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all no-underline inline-flex items-center gap-2">
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }} className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap mb-4">
+            <a href="#contact" className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 sm:px-10 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-bold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all no-underline inline-flex items-center gap-2 animate-glow">
               Записаться на пробный урок
               <ArrowRight className="size-4 sm:size-5" />
             </a>
             <a href="#programs" className="border border-white/[0.1] text-white/60 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-medium hover:border-purple-400/40 hover:text-white transition-all no-underline">
               Узнать больше
             </a>
-          </div>
-          <p className="text-xs sm:text-sm text-white/30 mb-8 sm:mb-12">Пробный урок бесплатный --- 1.5 часа, первый мини-проект</p>
+          </motion.div>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1 }} className="text-xs sm:text-sm text-white/30 mb-8 sm:mb-12">Пробный урок бесплатный --- 1.5 часа, первый мини-проект</motion.p>
 
-          <div className="flex items-center justify-center gap-6 sm:gap-12 flex-wrap mb-8 sm:mb-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }} className="flex items-center justify-center gap-6 sm:gap-12 flex-wrap mb-8 sm:mb-10">
             {[
               { num: "8-17", label: "Возраст" },
               { num: "4-8", label: "Детей в группе" },
               { num: "1-2", label: "Месяца спринт" },
               { num: "0", label: "Опыт нужен" },
-            ].map((s) => (
-              <div key={s.label} className="text-center">
-                <div className="text-xl sm:text-2xl font-extrabold text-purple-300 font-mono">{s.num}</div>
+            ].map((s, i) => (
+              <motion.div key={s.label} className="text-center" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 1.2 + i * 0.1 }}>
+                <div className="text-xl sm:text-2xl font-extrabold text-purple-300 font-mono animate-count-pulse">{s.num}</div>
                 <div className="text-[0.65rem] sm:text-[0.78rem] text-white/30 uppercase tracking-widest mt-1">{s.label}</div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1.4 }} className="flex flex-wrap justify-center gap-2 sm:gap-3">
             {[
               { icon: <Wifi className="size-3.5 text-purple-300" />, text: "Онлайн (Zoom + Discord)" },
               { icon: <Clock className="size-3.5 text-purple-300" />, text: "Спринты по 1-2 мес." },
@@ -449,7 +475,7 @@ export default function Home() {
                 {t.icon} {t.text}
               </span>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -502,27 +528,25 @@ export default function Home() {
             </h2>
           </Reveal>
 
-          <Reveal>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-              {[
-                { icon: <Smartphone className="size-6 text-red-400" />, title: "Бесконечный скроллинг", desc: "Ребёнок часами сидит в TikTok, YouTube, Roblox --- развивает клиповое мышление вместо полезных навыков." },
-                { icon: <TrendingDown className="size-6 text-red-400" />, title: "Курсы не работают", desc: "Месяц учит циклы for, не видит ни одного результата, выгорает и бросает. Деньги потрачены впустую." },
-                { icon: <AlertTriangle className="size-6 text-red-400" />, title: "Страх за будущее", desc: "Без навыков работы с ИИ ребёнок отстанет от сверстников. Мир меняется, а подготовки нет." },
-                { icon: <BatteryLow className="size-6 text-red-400" />, title: "Зависимость от экранов", desc: "Вы пытаетесь ограничить время в интернете, но это только вызывает конфликты." },
-                { icon: <Eye className="size-6 text-red-400" />, title: "Потеря интереса", desc: "«Скучно», «неинтересно», «зачем это мне нужно?» --- обычная реакция на школьное обучение." },
-                { icon: <TimerOff className="size-6 text-red-400" />, title: "Курсы тянутся годами", desc: "12 месяцев обучения, а ребёнок выгорает за 2 недели. Нет быстрого результата --- нет мотивации." },
-              ].map((p, i) => (
-                <div key={i} className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-5 sm:p-7 hover:border-red-500/30 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <IconBox className="bg-red-500/[0.1] mb-4">
-                    {p.icon}
-                  </IconBox>
-                  <h3 className="text-sm sm:text-base font-bold mb-2">{p.title}</h3>
-                  <p className="text-xs sm:text-sm text-white/50 leading-relaxed">{p.desc}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {[
+              { icon: <Smartphone className="size-6 text-red-400" />, title: "Бесконечный скроллинг", desc: "Ребёнок часами сидит в TikTok, YouTube, Roblox --- развивает клиповое мышление вместо полезных навыков." },
+              { icon: <TrendingDown className="size-6 text-red-400" />, title: "Курсы не работают", desc: "Месяц учит циклы for, не видит ни одного результата, выгорает и бросает. Деньги потрачены впустую." },
+              { icon: <AlertTriangle className="size-6 text-red-400" />, title: "Страх за будущее", desc: "Без навыков работы с ИИ ребёнок отстанет от сверстников. Мир меняется, а подготовки нет." },
+              { icon: <BatteryLow className="size-6 text-red-400" />, title: "Зависимость от экранов", desc: "Вы пытаетесь ограничить время в интернете, но это только вызывает конфликты." },
+              { icon: <Eye className="size-6 text-red-400" />, title: "Потеря интереса", desc: "«Скучно», «неинтересно», «зачем это мне нужно?» --- обычная реакция на школьное обучение." },
+              { icon: <TimerOff className="size-6 text-red-400" />, title: "Курсы тянутся годами", desc: "12 месяцев обучения, а ребёнок выгорает за 2 недели. Нет быстрого результата --- нет мотивации." },
+            ].map((p, i) => (
+              <motion.div key={i} variants={cardVariant} className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-5 sm:p-7 hover:border-red-500/30 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group animate-shimmer">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <IconBox className="bg-red-500/[0.1] mb-4">
+                  {p.icon}
+                </IconBox>
+                <h3 className="text-sm sm:text-base font-bold mb-2">{p.title}</h3>
+                <p className="text-xs sm:text-sm text-white/50 leading-relaxed">{p.desc}</p>
+              </motion.div>
+            ))}
+          </StaggerContainer>
 
           <Reveal className="mt-10 sm:mt-16">
             <div className="bg-[#10101c] border border-white/[0.06] rounded-2xl sm:rounded-3xl p-5 sm:p-12 relative overflow-hidden">
@@ -557,27 +581,25 @@ export default function Home() {
             </h2>
           </Reveal>
 
-          <Reveal>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-              {[
-                { icon: <Rocket className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Создаст IT-продукт", desc: "Реальный проект --- игру, сайт или бота --- который работает и которым можно поделиться с друзьями." },
-                { icon: <Bot className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Освоит ИИ как суперсилу", desc: "Научится управлять ChatGPT, Midjourney, Cursor --- инструменты, которые меняют мир прямо сейчас." },
-                { icon: <Brain className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Разовьёт критическое мышление", desc: "Научится проверять факты, не доверять ИИ слепо и думать самостоятельно." },
-                { icon: <DollarSign className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Получит первый доход", desc: "Для подростков --- готовое портфолио и навыки для первых фриланс-заказов." },
-                { icon: <Heart className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Полюбит учиться", desc: "Потому что видит живой результат каждое занятие. Не теория, а практика." },
-                { icon: <Flame className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Обретёт уверенность", desc: "Вместо «я это не могу» --- «я это создал сам!». Трансформация мышления." },
-              ].map((s, i) => (
-                <div key={i} className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-5 sm:p-7 hover:border-cyan-500/30 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <IconBox className={`${s.bg} mb-4`}>
-                    {s.icon}
-                  </IconBox>
-                  <h3 className="text-sm sm:text-base font-bold mb-2">{s.title}</h3>
-                  <p className="text-xs sm:text-sm text-white/50 leading-relaxed">{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {[
+              { icon: <Rocket className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Создаст IT-продукт", desc: "Реальный проект --- игру, сайт или бота --- который работает и которым можно поделиться с друзьями." },
+              { icon: <Bot className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Освоит ИИ как суперсилу", desc: "Научится управлять ChatGPT, Midjourney, Cursor --- инструменты, которые меняют мир прямо сейчас." },
+              { icon: <Brain className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Разовьёт критическое мышление", desc: "Научится проверять факты, не доверять ИИ слепо и думать самостоятельно." },
+              { icon: <DollarSign className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Получит первый доход", desc: "Для подростков --- готовое портфолио и навыки для первых фриланс-заказов." },
+              { icon: <Heart className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Полюбит учиться", desc: "Потому что видит живой результат каждое занятие. Не теория, а практика." },
+              { icon: <Flame className="size-6 text-cyan-400" />, bg: "bg-cyan-500/[0.1]", title: "Обретёт уверенность", desc: "Вместо «я это не могу» --- «я это создал сам!». Трансформация мышления." },
+            ].map((s, i) => (
+              <motion.div key={i} variants={cardVariant} className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-5 sm:p-7 hover:border-cyan-500/30 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500 to-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <IconBox className={`${s.bg} mb-4`}>
+                  {s.icon}
+                </IconBox>
+                <h3 className="text-sm sm:text-base font-bold mb-2">{s.title}</h3>
+                <p className="text-xs sm:text-sm text-white/50 leading-relaxed">{s.desc}</p>
+              </motion.div>
+            ))}
+          </StaggerContainer>
 
           {/* DISPLAY CARDS SECTION */}
           <Reveal className="mt-10 sm:mt-16">
@@ -763,7 +785,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <a href="#trial" className="w-full block text-center border border-white/[0.1] text-white/60 px-6 py-3 sm:py-3.5 rounded-full text-sm font-semibold hover:border-purple-400/40 hover:text-white transition-all no-underline">
+                <a href="#contact" className="w-full block text-center border border-white/[0.1] text-white/60 px-6 py-3 sm:py-3.5 rounded-full text-sm font-semibold hover:border-purple-400/40 hover:text-white transition-all no-underline">
                   Записаться на пробный урок
                 </a>
               </div>
@@ -785,7 +807,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <a href="#trial" className="w-full block text-center bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-3 sm:py-3.5 rounded-full text-sm font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all no-underline">
+                <a href="#contact" className="w-full block text-center bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-3 sm:py-3.5 rounded-full text-sm font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all no-underline">
                   Записаться на пробный урок
                 </a>
               </div>
@@ -1094,6 +1116,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ====== CONTACT SECTION ====== */}
+      <section id="contact" className="py-16 sm:py-28 px-4 sm:px-6 bg-[#0a0a14] relative">
+        <div className="max-w-[1200px] mx-auto">
+          <Reveal className="text-center mb-8 sm:mb-12">
+            <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Контакты</span>
+            <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
+              Свяжитесь с нами <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">любым удобным способом</span>
+            </h2>
+            <p className="text-sm sm:text-lg text-white/50 max-w-[660px] mx-auto mt-4 sm:mt-5">Напишите нам --- ответим в течение 15 минут в рабочее время. Поможем подобрать программу для вашего ребёнка.</p>
+          </Reveal>
+
+          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-[1000px] mx-auto mb-10 sm:mb-14">
+            <motion.a variants={cardVariant} href="https://wa.me/380XXXXXXXXX" target="_blank" rel="noopener noreferrer" className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-6 sm:p-8 text-center hover:border-green-500/30 hover:-translate-y-1 transition-all duration-300 group no-underline block">
+              <div className="w-14 h-14 rounded-2xl bg-green-500/[0.1] flex items-center justify-center mx-auto mb-4 group-hover:bg-green-500/[0.2] transition-colors">
+                <Phone className="size-7 text-green-400" />
+              </div>
+              <h4 className="text-base sm:text-lg font-bold text-white mb-1">WhatsApp</h4>
+              <p className="text-sm text-white/40 mb-3">Быстрый ответ</p>
+              <span className="text-sm font-semibold text-green-400">+380 XX XXX XX XX</span>
+            </motion.a>
+
+            <motion.a variants={cardVariant} href="https://t.me/vibecoding_support" target="_blank" rel="noopener noreferrer" className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-6 sm:p-8 text-center hover:border-blue-500/30 hover:-translate-y-1 transition-all duration-300 group no-underline block">
+              <div className="w-14 h-14 rounded-2xl bg-blue-500/[0.1] flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500/[0.2] transition-colors">
+                <Send className="size-7 text-blue-400" />
+              </div>
+              <h4 className="text-base sm:text-lg font-bold text-white mb-1">Telegram</h4>
+              <p className="text-sm text-white/40 mb-3">Чат и канал</p>
+              <span className="text-sm font-semibold text-blue-400">@vibecoding_support</span>
+            </motion.a>
+
+            <motion.a variants={cardVariant} href="mailto:hello@vibecoding.com" className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-6 sm:p-8 text-center hover:border-purple-500/30 hover:-translate-y-1 transition-all duration-300 group no-underline block sm:col-span-2 lg:col-span-1">
+              <div className="w-14 h-14 rounded-2xl bg-purple-500/[0.1] flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-500/[0.2] transition-colors">
+                <Mail className="size-7 text-purple-400" />
+              </div>
+              <h4 className="text-base sm:text-lg font-bold text-white mb-1">Email</h4>
+              <p className="text-sm text-white/40 mb-3">Подробные вопросы</p>
+              <span className="text-sm font-semibold text-purple-400">hello@vibecoding.com</span>
+            </motion.a>
+          </StaggerContainer>
+
+          <Reveal>
+            <div className="bg-[#12122a] border border-purple-500/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 max-w-[800px] mx-auto relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500" />
+              <h3 className="text-lg sm:text-xl font-extrabold text-center mb-6 sm:mb-8">Все способы связи</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                {[
+                  { icon: <Phone className="size-5 text-green-400" />, label: "WhatsApp", value: "+380 XX XXX XX XX", href: "https://wa.me/380XXXXXXXXX", color: "text-green-400" },
+                  { icon: <Send className="size-5 text-blue-400" />, label: "Telegram", value: "@vibecoding_support", href: "https://t.me/vibecoding_support", color: "text-blue-400" },
+                  { icon: <MessageCircle className="size-5 text-indigo-400" />, label: "Viber", value: "+380 XX XXX XX XX", href: "viber://chat?number=380XXXXXXXXX", color: "text-indigo-400" },
+                  { icon: <Mail className="size-5 text-purple-400" />, label: "Email", value: "hello@vibecoding.com", href: "mailto:hello@vibecoding.com", color: "text-purple-400" },
+                  { icon: <Globe className="size-5 text-cyan-400" />, label: "Discord", value: "Vibe Coding Community", href: "#", color: "text-cyan-400" },
+                  { icon: <Phone className="size-5 text-orange-400" />, label: "Позвонить", value: "+380 XX XXX XX XX", href: "tel:+380XXXXXXXXX", color: "text-orange-400" },
+                ].map((c, i) => (
+                  <a key={i} href={c.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 hover:border-white/[0.12] hover:bg-white/[0.05] transition-all no-underline group">
+                    <div className="w-10 h-10 rounded-xl bg-white/[0.05] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                      {c.icon}
+                    </div>
+                    <div>
+                      <div className="text-xs text-white/40 mb-0.5">{c.label}</div>
+                      <div className={`text-sm font-semibold ${c.color}`}>{c.value}</div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+              <p className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-white/30">
+                Ответим в течение 15 минут с 9:00 до 21:00 (Киев, UTC+2)
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ====== FOOTER ====== */}
       <footer className="border-t border-white/[0.04] bg-[#0a0a14] py-8 sm:py-10 px-4 sm:px-6">
         <div className="max-w-[1200px] mx-auto text-center">
@@ -1117,7 +1211,7 @@ export default function Home() {
 
       {/* ====== FLOATING CTA ====== */}
       <div className={`fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-50 transition-all duration-300 ${showFloat ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5 pointer-events-none"}`}>
-        <a href="#trial" className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-violet-600 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-full font-bold shadow-xl shadow-purple-500/40 hover:shadow-purple-500/60 transition-all no-underline text-xs sm:text-sm">
+        <a href="#contact" className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-violet-600 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-full font-bold shadow-xl shadow-purple-500/40 hover:shadow-purple-500/60 transition-all no-underline text-xs sm:text-sm">
           <Rocket className="size-3.5 sm:size-4" />
           Записаться
         </a>
