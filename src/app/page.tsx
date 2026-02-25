@@ -359,11 +359,12 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#06060b] text-[#eeeef5] overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-[#06060b] text-[#eeeef5] overflow-x-hidden font-sans noise-overlay">
       {/* ====== BG EFFECTS ====== */}
-      <div className="fixed inset-0 z-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(124,108,240,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(124,108,240,0.025) 1px, transparent 1px)", backgroundSize: "64px 64px" }} />
-      <div className="fixed w-[650px] h-[650px] rounded-full top-[-250px] right-[-200px] bg-purple-500/[0.07] blur-[130px] pointer-events-none z-0 animate-pulse" />
-      <div className="fixed w-[550px] h-[550px] rounded-full bottom-[20%] left-[-200px] bg-cyan-500/[0.05] blur-[130px] pointer-events-none z-0" />
+      <div className="fixed inset-0 z-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(rgba(124,108,240,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(124,108,240,0.03) 1px, transparent 1px)", backgroundSize: "64px 64px" }} />
+      <div className="fixed w-[800px] h-[800px] rounded-full top-[-300px] right-[-250px] bg-purple-500/[0.08] blur-[150px] pointer-events-none z-0 animate-pulse" />
+      <div className="fixed w-[600px] h-[600px] rounded-full bottom-[15%] left-[-250px] bg-cyan-500/[0.06] blur-[140px] pointer-events-none z-0 animate-float" />
+      <div className="fixed w-[400px] h-[400px] rounded-full top-[40%] right-[10%] bg-pink-500/[0.04] blur-[120px] pointer-events-none z-0" style={{ animation: "float 6s ease-in-out infinite reverse" }} />
 
       {/* ====== NAVIGATION ====== */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#06060b]/92 border-b border-white/[0.06] backdrop-blur-2xl" : "bg-[#06060b]/75 backdrop-blur-xl"}`}>
@@ -424,21 +425,33 @@ export default function Home() {
       {/* ====== HERO WITH SPLINE 3D ROBOT ====== */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
-        {/* Subtle gradient bg instead of full-cover Spline */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a18] via-[#06060b] to-[#06060b]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0c0a20] via-[#06060b] to-[#06060b]" />
+        {/* Animated gradient orbs */}
+        <div className="absolute top-[10%] right-[15%] w-[500px] h-[500px] rounded-full bg-purple-600/[0.08] blur-[120px] animate-float pointer-events-none" />
+        <div className="absolute bottom-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-cyan-500/[0.06] blur-[100px] pointer-events-none" style={{ animationDelay: "2s" }} />
 
-        <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-24 sm:py-32 flex flex-col lg:flex-row items-center gap-8 lg:gap-4">
-          {/* Left: text */}
-          <div className="flex-1 text-center lg:text-left">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm text-white/60 mb-6 sm:mb-9">
+        {/* Spline 3D Robot - FULL RIGHT SIDE */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, delay: 0.3 }}
+          className="absolute top-0 right-0 w-[55%] h-full hidden lg:block pointer-events-auto z-[1]"
+        >
+          <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#06060b] via-transparent to-transparent pointer-events-none" />
+        </motion.div>
+
+        <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-28 sm:py-36">
+          <div className="max-w-[600px] text-center lg:text-left">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm text-white/60 mb-6 sm:mb-9 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             Набор открыт --- старт 1 апреля
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }} className="text-[clamp(2rem,6.5vw,4.8rem)] font-black leading-[1.06] tracking-[-0.04em] mb-5 sm:mb-7">
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }} className="text-[clamp(2rem,6.5vw,4.2rem)] font-black leading-[1.06] tracking-[-0.04em] mb-5 sm:mb-7">
             Превратите ребёнка<br />
-            <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">из потребителя в создателя</span>
+            <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">из потребителя в создателя</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }} className="text-[clamp(0.95rem,2.5vw,1.3rem)] text-white/50 max-w-[700px] mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed px-2 lg:px-0">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }} className="text-[clamp(0.95rem,2.2vw,1.2rem)] text-white/50 max-w-[520px] mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed">
             За 1 месяц он создаст реальный IT-продукт (игру, сайт или бота) с помощью ИИ --- и забудет о бесполезном скроллинге
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }} className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4 flex-wrap mb-4">
@@ -446,13 +459,13 @@ export default function Home() {
               Записаться на пробный урок
               <ArrowRight className="size-4 sm:size-5" />
             </a>
-            <a href="#programs" className="border border-white/[0.1] text-white/60 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-medium hover:border-purple-400/40 hover:text-white transition-all no-underline">
+            <a href="#programs" className="border border-white/[0.15] text-white/60 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-medium hover:border-purple-400/40 hover:text-white hover:bg-white/[0.03] transition-all no-underline backdrop-blur-sm">
               Узнать больше
             </a>
           </motion.div>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1 }} className="text-xs sm:text-sm text-white/30 mb-8 sm:mb-12">Пробный урок бесплатный --- 1.5 часа, первый мини-проект</motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }} className="flex items-center justify-center lg:justify-start gap-6 sm:gap-12 flex-wrap mb-8 sm:mb-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }} className="flex items-center justify-center lg:justify-start gap-6 sm:gap-10 flex-wrap mb-8 sm:mb-10">
             {[
               { num: "8-17", label: "Возраст" },
               { num: "4-8", label: "Детей в группе" },
@@ -460,7 +473,7 @@ export default function Home() {
               { num: "0", label: "Опыт нужен" },
             ].map((s, i) => (
               <motion.div key={s.label} className="text-center" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 1.2 + i * 0.1 }}>
-                <div className="text-xl sm:text-2xl font-extrabold text-purple-300 font-mono animate-count-pulse">{s.num}</div>
+                <div className="text-xl sm:text-2xl font-extrabold text-purple-300 font-mono">{s.num}</div>
                 <div className="text-[0.65rem] sm:text-[0.78rem] text-white/30 uppercase tracking-widest mt-1">{s.label}</div>
               </motion.div>
             ))}
@@ -472,24 +485,12 @@ export default function Home() {
               { icon: <Clock className="size-3.5 text-purple-300" />, text: "Спринты по 1-2 мес." },
               { icon: <Lightbulb className="size-3.5 text-purple-300" />, text: "Для новичков" },
             ].map((t) => (
-              <span key={t.text} className="inline-flex items-center gap-2 bg-white/[0.04] border border-white/[0.06] rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm text-white/50">
+              <span key={t.text} className="inline-flex items-center gap-2 bg-white/[0.04] border border-white/[0.06] rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm text-white/50 backdrop-blur-sm">
                 {t.icon} {t.text}
               </span>
             ))}
           </motion.div>
           </div>
-
-          {/* Right: Spline 3D Robot (follows cursor) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-[1.5] relative w-full min-h-[450px] sm:min-h-[550px] lg:min-h-[700px] lg:-mr-24 hidden md:block overflow-visible"
-          >
-            <div className="absolute inset-[-15%] lg:inset-[-20%]">
-              <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
-            </div>
-          </motion.div>
         </div>
       </section>
 
@@ -533,12 +534,14 @@ export default function Home() {
       </div>
 
       {/* ====== PROBLEMS ====== */}
-      <section id="problems" className="py-16 sm:py-28 px-4 sm:px-6 bg-[#0a0a14] relative">
+      <section id="problems" className="py-16 sm:py-28 px-4 sm:px-6 bg-[#0a0a14] relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
+        <div className="absolute top-[20%] right-[-200px] w-[500px] h-[500px] rounded-full bg-red-500/[0.04] blur-[120px] pointer-events-none" />
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Знакомо?</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em] px-2">
-              Вы дарили ребёнку возможность развиваться, но <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">что получилось?</span>
+              Вы дарили ребёнку возможность развиваться, но <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">что получилось?</span>
             </h2>
           </Reveal>
 
@@ -586,12 +589,14 @@ export default function Home() {
       </section>
 
       {/* ====== SOLUTION ====== */}
-      <section id="solution" className="py-16 sm:py-28 px-4 sm:px-6 relative">
+      <section id="solution" className="py-16 sm:py-28 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
+        <div className="absolute top-[30%] left-[-200px] w-[500px] h-[500px] rounded-full bg-cyan-500/[0.04] blur-[120px] pointer-events-none" />
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Решение</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em] px-2">
-              Представьте, что через 1 месяц <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">ваш ребёнок</span>
+              Представьте, что через 1 месяц <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">ваш ребёнок</span>
             </h2>
           </Reveal>
 
@@ -646,12 +651,14 @@ export default function Home() {
       </section>
 
       {/* ====== PROGRAMS ====== */}
-      <section id="programs" className="py-16 sm:py-28 px-4 sm:px-6 bg-[#0a0a14] relative">
+      <section id="programs" className="py-16 sm:py-28 px-4 sm:px-6 bg-[#0a0a14] relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[1px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
+        <div className="absolute bottom-[10%] right-[-150px] w-[400px] h-[400px] rounded-full bg-purple-500/[0.04] blur-[100px] pointer-events-none" />
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Программы</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Выберите программу <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">для вашего ребёнка</span>
+              Выберите программу <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">для вашего ребёнка</span>
             </h2>
           </Reveal>
           <Reveal><ProgramTabs /></Reveal>
@@ -678,12 +685,13 @@ export default function Home() {
       </div>
 
       {/* ====== HOW IT WORKS ====== */}
-      <section className="py-16 sm:py-28 px-4 sm:px-6 relative">
+      <section className="py-16 sm:py-28 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Модель спринтов</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Как работает <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">наша система</span>
+              Как работает <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">наша система</span>
             </h2>
             <p className="text-sm sm:text-lg text-white/50 max-w-[660px] mx-auto mt-4 sm:mt-5">Мы не продаём бесконечные годовые курсы. Мы продаём быстрые, видимые результаты.</p>
           </Reveal>
@@ -729,7 +737,7 @@ export default function Home() {
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Инструменты</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Работаем с инструментами <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">будущего</span>
+              Работаем с инструментами <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">будущего</span>
             </h2>
             <p className="text-sm sm:text-lg text-white/50 max-w-[660px] mx-auto mt-4 sm:mt-5">Всё работает в браузере --- ничего не нужно скачивать.</p>
           </Reveal>
@@ -765,7 +773,7 @@ export default function Home() {
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Проекты учеников</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Что создают <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">наши ученики</span>
+              Что создают <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">наши ученики</span>
             </h2>
           </Reveal>
           <Reveal><ProjectTabs /></Reveal>
@@ -778,7 +786,7 @@ export default function Home() {
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Стоимость</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Прозрачные цены, <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">никаких скрытых платежей</span>
+              Прозрачные цены, <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">никаких скрытых платежей</span>
             </h2>
           </Reveal>
 
@@ -889,12 +897,14 @@ export default function Home() {
       </section>
 
       {/* ====== TESTIMONIALS ====== */}
-      <section className="py-16 sm:py-28 px-4 sm:px-6 relative">
+      <section className="py-16 sm:py-28 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[1px] bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+        <div className="absolute top-[30%] left-[-150px] w-[350px] h-[350px] rounded-full bg-orange-500/[0.03] blur-[100px] pointer-events-none" />
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Отзывы</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Что говорят <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">родители и дети</span>
+              Что говорят <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">родители и дети</span>
             </h2>
           </Reveal>
           <Reveal>
@@ -933,7 +943,7 @@ export default function Home() {
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Ограниченный набор</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Запуск нового спринта: <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">1 апреля</span>
+              Запуск нового спринта: <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">1 апреля</span>
             </h2>
             <p className="text-sm sm:text-lg text-white/50 max-w-[660px] mx-auto mt-4 sm:mt-5">Запись открыта до 28 марта. В группе максимум 8 мест.</p>
           </Reveal>
@@ -966,7 +976,7 @@ export default function Home() {
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Бонусы</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              При записи на спринт <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">бесплатно</span>
+              При записи на спринт <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">бесплатно</span>
             </h2>
           </Reveal>
           <Reveal>
@@ -1000,7 +1010,7 @@ export default function Home() {
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Гарантии</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Мы настолько уверены, <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">что даём 3 гарантии</span>
+              Мы настолько уверены, <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">что даём 3 гарантии</span>
             </h2>
           </Reveal>
           <Reveal>
@@ -1029,7 +1039,7 @@ export default function Home() {
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">FAQ</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Ответы на <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">частые вопросы</span>
+              Ответы на <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">частые вопросы</span>
             </h2>
           </Reveal>
           <Reveal>
@@ -1050,12 +1060,13 @@ export default function Home() {
       </section>
 
       {/* ====== CTA FINAL ====== */}
-      <section id="trial" className="py-16 sm:py-28 px-4 sm:px-6 bg-gradient-to-r from-purple-500/[0.06] to-cyan-500/[0.04] border-t border-white/[0.04] relative">
+      <section id="trial" className="py-16 sm:py-28 px-4 sm:px-6 bg-gradient-to-br from-purple-500/[0.08] via-[#06060b] to-cyan-500/[0.06] border-t border-white/[0.04] relative overflow-hidden">
+        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-purple-500/[0.06] blur-[150px] pointer-events-none" />
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Выбор за вами</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Два пути <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">для вашего ребёнка</span>
+              Два пути <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">для вашего ребёнка</span>
             </h2>
           </Reveal>
 
@@ -1136,7 +1147,7 @@ export default function Home() {
           <Reveal className="text-center mb-8 sm:mb-12">
             <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Записаться</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Оставьте заявку --- <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">мы перезвоним</span>
+              Оставьте заявку --- <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">мы перезвоним</span>
             </h2>
             <p className="text-sm sm:text-lg text-white/50 max-w-[660px] mx-auto mt-4 sm:mt-5">Заполните форму и мы свяжемся с вами в Telegram в течение 15 минут. Подберём программу для вашего ребёнка.</p>
           </Reveal>
