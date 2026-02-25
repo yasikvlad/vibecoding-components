@@ -436,7 +436,9 @@ export default function Home() {
           transition={{ duration: 1.5, delay: 0.3 }}
           className="absolute inset-0 hidden lg:block z-[1]"
         >
-          <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
+          <div className="absolute top-0 bottom-0 -left-[15%] -right-[15%]">
+            <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
+          </div>
         </motion.div>
         {/* Gradient overlay: covers left side for text readability, fades out toward robot on right */}
         <div className="absolute inset-0 z-[2] pointer-events-none hidden lg:block" style={{ background: "linear-gradient(to right, #06060b 0%, #06060bee 25%, #06060b99 45%, transparent 65%)" }} />
