@@ -421,14 +421,15 @@ export default function Home() {
         </div>
       )}
 
-      {/* ====== HERO WITH SPLINE 3D ====== */}
-      <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
+      {/* ====== HERO WITH SPLINE 3D ROBOT ====== */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
-        <div className="absolute inset-0">
-          <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#06060b]/60 via-[#06060b]/40 to-[#06060b]" />
-        </div>
-        <div className="relative z-10 px-4 sm:px-6 py-24 sm:py-32 max-w-[950px] mx-auto">
+        {/* Subtle gradient bg instead of full-cover Spline */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a18] via-[#06060b] to-[#06060b]" />
+
+        <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-24 sm:py-32 flex flex-col lg:flex-row items-center gap-8 lg:gap-4">
+          {/* Left: text */}
+          <div className="flex-1 text-center lg:text-left">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm text-white/60 mb-6 sm:mb-9">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
             Набор открыт --- старт 1 апреля
@@ -437,10 +438,10 @@ export default function Home() {
             Превратите ребёнка<br />
             <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">из потребителя в создателя</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }} className="text-[clamp(0.95rem,2.5vw,1.3rem)] text-white/50 max-w-[700px] mx-auto mb-8 sm:mb-10 leading-relaxed px-2">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }} className="text-[clamp(0.95rem,2.5vw,1.3rem)] text-white/50 max-w-[700px] mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed px-2 lg:px-0">
             За 1 месяц он создаст реальный IT-продукт (игру, сайт или бота) с помощью ИИ --- и забудет о бесполезном скроллинге
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }} className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap mb-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }} className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4 flex-wrap mb-4">
             <a href="#contact" className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 sm:px-10 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-bold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all no-underline inline-flex items-center gap-2 animate-glow">
               Записаться на пробный урок
               <ArrowRight className="size-4 sm:size-5" />
@@ -451,7 +452,7 @@ export default function Home() {
           </motion.div>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1 }} className="text-xs sm:text-sm text-white/30 mb-8 sm:mb-12">Пробный урок бесплатный --- 1.5 часа, первый мини-проект</motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }} className="flex items-center justify-center gap-6 sm:gap-12 flex-wrap mb-8 sm:mb-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }} className="flex items-center justify-center lg:justify-start gap-6 sm:gap-12 flex-wrap mb-8 sm:mb-10">
             {[
               { num: "8-17", label: "Возраст" },
               { num: "4-8", label: "Детей в группе" },
@@ -465,7 +466,7 @@ export default function Home() {
             ))}
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1.4 }} className="flex flex-wrap justify-center gap-2 sm:gap-3">
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1.4 }} className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3">
             {[
               { icon: <Wifi className="size-3.5 text-purple-300" />, text: "Онлайн (Zoom + Discord)" },
               { icon: <Clock className="size-3.5 text-purple-300" />, text: "Спринты по 1-2 мес." },
@@ -475,6 +476,17 @@ export default function Home() {
                 {t.icon} {t.text}
               </span>
             ))}
+          </motion.div>
+          </div>
+
+          {/* Right: Spline 3D Robot (follows cursor) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="flex-1 relative w-full min-h-[350px] sm:min-h-[450px] lg:min-h-[550px] hidden md:block"
+          >
+            <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
           </motion.div>
         </div>
       </section>
@@ -1120,70 +1132,81 @@ export default function Home() {
       <section id="contact" className="py-16 sm:py-28 px-4 sm:px-6 bg-[#0a0a14] relative">
         <div className="max-w-[1200px] mx-auto">
           <Reveal className="text-center mb-8 sm:mb-12">
-            <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Контакты</span>
+            <span className="inline-flex items-center gap-2 text-[0.78rem] font-semibold tracking-[0.14em] uppercase text-purple-300 bg-purple-500/[0.08] border border-purple-500/[0.12] rounded-full px-5 py-2 mb-5">Записаться</span>
             <h2 className="text-[clamp(1.6rem,5vw,3.4rem)] font-extrabold leading-tight tracking-[-0.03em]">
-              Свяжитесь с нами <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">любым удобным способом</span>
+              Оставьте заявку --- <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent">мы перезвоним</span>
             </h2>
-            <p className="text-sm sm:text-lg text-white/50 max-w-[660px] mx-auto mt-4 sm:mt-5">Напишите нам --- ответим в течение 15 минут в рабочее время. Поможем подобрать программу для вашего ребёнка.</p>
+            <p className="text-sm sm:text-lg text-white/50 max-w-[660px] mx-auto mt-4 sm:mt-5">Заполните форму и мы свяжемся с вами в Telegram в течение 15 минут. Подберём программу для вашего ребёнка.</p>
           </Reveal>
 
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-[1000px] mx-auto mb-10 sm:mb-14">
-            <motion.a variants={cardVariant} href="https://wa.me/380XXXXXXXXX" target="_blank" rel="noopener noreferrer" className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-6 sm:p-8 text-center hover:border-green-500/30 hover:-translate-y-1 transition-all duration-300 group no-underline block">
-              <div className="w-14 h-14 rounded-2xl bg-green-500/[0.1] flex items-center justify-center mx-auto mb-4 group-hover:bg-green-500/[0.2] transition-colors">
-                <Phone className="size-7 text-green-400" />
+          <Reveal>
+            <div className="max-w-[520px] mx-auto mb-10 sm:mb-14">
+              <div className="bg-[#12122a] border border-purple-500/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-cyan-500 to-pink-500" />
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const form = e.currentTarget;
+                    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+                    const phone = (form.elements.namedItem("phone") as HTMLInputElement).value;
+                    // TODO: отправить в Telegram бот (подключить позже)
+                    alert(`Спасибо, ${name}! Мы перезвоним на ${phone} в ближайшее время.`);
+                    form.reset();
+                  }}
+                  className="space-y-4 sm:space-y-5"
+                >
+                  <div>
+                    <label htmlFor="name" className="block text-xs sm:text-sm font-semibold text-white/60 mb-2">Имя ребёнка или родителя</label>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      placeholder="Например, Анна"
+                      className="w-full bg-white/[0.05] border border-white/[0.1] rounded-xl px-4 sm:px-5 py-3 sm:py-3.5 text-sm sm:text-base text-white placeholder:text-white/25 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/30 transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-xs sm:text-sm font-semibold text-white/60 mb-2">Телефон (WhatsApp / Telegram)</label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      placeholder="+380 XX XXX XX XX"
+                      className="w-full bg-white/[0.05] border border-white/[0.1] rounded-xl px-4 sm:px-5 py-3 sm:py-3.5 text-sm sm:text-base text-white placeholder:text-white/25 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/30 transition-all"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-3.5 sm:py-4 rounded-xl text-base sm:text-lg font-bold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all inline-flex items-center justify-center gap-2 animate-glow"
+                  >
+                    Записаться на пробный урок
+                    <ArrowRight className="size-5" />
+                  </button>
+                  <p className="text-center text-[0.65rem] sm:text-xs text-white/25">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+                </form>
               </div>
-              <h4 className="text-base sm:text-lg font-bold text-white mb-1">WhatsApp</h4>
-              <p className="text-sm text-white/40 mb-3">Быстрый ответ</p>
-              <span className="text-sm font-semibold text-green-400">+380 XX XXX XX XX</span>
-            </motion.a>
-
-            <motion.a variants={cardVariant} href="https://t.me/vibecoding_support" target="_blank" rel="noopener noreferrer" className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-6 sm:p-8 text-center hover:border-blue-500/30 hover:-translate-y-1 transition-all duration-300 group no-underline block">
-              <div className="w-14 h-14 rounded-2xl bg-blue-500/[0.1] flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500/[0.2] transition-colors">
-                <Send className="size-7 text-blue-400" />
-              </div>
-              <h4 className="text-base sm:text-lg font-bold text-white mb-1">Telegram</h4>
-              <p className="text-sm text-white/40 mb-3">Чат и канал</p>
-              <span className="text-sm font-semibold text-blue-400">@vibecoding_support</span>
-            </motion.a>
-
-            <motion.a variants={cardVariant} href="mailto:hello@vibecoding.com" className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-6 sm:p-8 text-center hover:border-purple-500/30 hover:-translate-y-1 transition-all duration-300 group no-underline block sm:col-span-2 lg:col-span-1">
-              <div className="w-14 h-14 rounded-2xl bg-purple-500/[0.1] flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-500/[0.2] transition-colors">
-                <Mail className="size-7 text-purple-400" />
-              </div>
-              <h4 className="text-base sm:text-lg font-bold text-white mb-1">Email</h4>
-              <p className="text-sm text-white/40 mb-3">Подробные вопросы</p>
-              <span className="text-sm font-semibold text-purple-400">hello@vibecoding.com</span>
-            </motion.a>
-          </StaggerContainer>
+            </div>
+          </Reveal>
 
           <Reveal>
-            <div className="bg-[#12122a] border border-purple-500/20 rounded-2xl sm:rounded-3xl p-6 sm:p-10 max-w-[800px] mx-auto relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500" />
-              <h3 className="text-lg sm:text-xl font-extrabold text-center mb-6 sm:mb-8">Все способы связи</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                {[
-                  { icon: <Phone className="size-5 text-green-400" />, label: "WhatsApp", value: "+380 XX XXX XX XX", href: "https://wa.me/380XXXXXXXXX", color: "text-green-400" },
-                  { icon: <Send className="size-5 text-blue-400" />, label: "Telegram", value: "@vibecoding_support", href: "https://t.me/vibecoding_support", color: "text-blue-400" },
-                  { icon: <MessageCircle className="size-5 text-indigo-400" />, label: "Viber", value: "+380 XX XXX XX XX", href: "viber://chat?number=380XXXXXXXXX", color: "text-indigo-400" },
-                  { icon: <Mail className="size-5 text-purple-400" />, label: "Email", value: "hello@vibecoding.com", href: "mailto:hello@vibecoding.com", color: "text-purple-400" },
-                  { icon: <Globe className="size-5 text-cyan-400" />, label: "Discord", value: "Vibe Coding Community", href: "#", color: "text-cyan-400" },
-                  { icon: <Phone className="size-5 text-orange-400" />, label: "Позвонить", value: "+380 XX XXX XX XX", href: "tel:+380XXXXXXXXX", color: "text-orange-400" },
-                ].map((c, i) => (
-                  <a key={i} href={c.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 hover:border-white/[0.12] hover:bg-white/[0.05] transition-all no-underline group">
-                    <div className="w-10 h-10 rounded-xl bg-white/[0.05] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                      {c.icon}
-                    </div>
-                    <div>
-                      <div className="text-xs text-white/40 mb-0.5">{c.label}</div>
-                      <div className={`text-sm font-semibold ${c.color}`}>{c.value}</div>
-                    </div>
-                  </a>
-                ))}
-              </div>
-              <p className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-white/30">
-                Ответим в течение 15 минут с 9:00 до 21:00 (Киев, UTC+2)
-              </p>
-            </div>
+            <h3 className="text-base sm:text-lg font-extrabold text-center mb-5 sm:mb-7">Или напишите нам напрямую</h3>
+            <StaggerContainer className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-[700px] mx-auto">
+              {[
+                { icon: <Phone className="size-5 text-green-400" />, label: "WhatsApp", href: "https://wa.me/380XXXXXXXXX", color: "hover:border-green-500/30" },
+                { icon: <Send className="size-5 text-blue-400" />, label: "Telegram", href: "https://t.me/vibecoding_support", color: "hover:border-blue-500/30" },
+                { icon: <MessageCircle className="size-5 text-indigo-400" />, label: "Viber", href: "viber://chat?number=380XXXXXXXXX", color: "hover:border-indigo-500/30" },
+                { icon: <Mail className="size-5 text-purple-400" />, label: "Email", href: "mailto:hello@vibecoding.com", color: "hover:border-purple-500/30" },
+              ].map((c, i) => (
+                <motion.a key={i} variants={cardVariant} href={c.href} target="_blank" rel="noopener noreferrer" className={`bg-[#12122a] border border-white/[0.06] rounded-2xl p-4 sm:p-5 text-center ${c.color} hover:-translate-y-1 transition-all duration-300 no-underline block`}>
+                  <div className="flex items-center justify-center mb-2">
+                    {c.icon}
+                  </div>
+                  <span className="text-xs sm:text-sm font-semibold text-white/60">{c.label}</span>
+                </motion.a>
+              ))}
+            </StaggerContainer>
           </Reveal>
         </div>
       </section>
