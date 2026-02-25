@@ -547,20 +547,28 @@ export default function Home() {
 
           <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {[
-              { icon: <Smartphone className="size-6 text-red-400" />, title: "Бесконечный скроллинг", desc: "Ребёнок часами сидит в TikTok, YouTube, Roblox --- развивает клиповое мышление вместо полезных навыков." },
-              { icon: <TrendingDown className="size-6 text-red-400" />, title: "Курсы не работают", desc: "Месяц учит циклы for, не видит ни одного результата, выгорает и бросает. Деньги потрачены впустую." },
-              { icon: <AlertTriangle className="size-6 text-red-400" />, title: "Страх за будущее", desc: "Без навыков работы с ИИ ребёнок отстанет от сверстников. Мир меняется, а подготовки нет." },
-              { icon: <BatteryLow className="size-6 text-red-400" />, title: "Зависимость от экранов", desc: "Вы пытаетесь ограничить время в интернете, но это только вызывает конфликты." },
-              { icon: <Eye className="size-6 text-red-400" />, title: "Потеря интереса", desc: "«Скучно», «неинтересно», «зачем это мне нужно?» --- обычная реакция на школьное обучение." },
-              { icon: <TimerOff className="size-6 text-red-400" />, title: "Курсы тянутся годами", desc: "12 месяцев обучения, а ребёнок выгорает за 2 недели. Нет быстрого результата --- нет мотивации." },
+              { icon: <Smartphone className="size-6 text-red-400" />, title: "Бесконечный скроллинг", desc: "Ребёнок часами сидит в TikTok, YouTube, Roblox --- развивает клиповое мышление вместо полезных навыков.", img: "https://images.unsplash.com/photo-1588702547919-26089e690ecc?w=400&h=220&fit=crop&crop=faces" },
+              { icon: <TrendingDown className="size-6 text-red-400" />, title: "Курсы не работают", desc: "Месяц учит циклы for, не видит ни одного результата, выгорает и бросает. Деньги потрачены впустую.", img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=220&fit=crop" },
+              { icon: <AlertTriangle className="size-6 text-red-400" />, title: "Страх за будущее", desc: "Без навыков работы с ИИ ребёнок отстанет от сверстников. Мир меняется, а подготовки нет.", img: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=220&fit=crop" },
+              { icon: <BatteryLow className="size-6 text-red-400" />, title: "Зависимость от экранов", desc: "Вы пытаетесь ограничить время в интернете, но это только вызывает конфликты.", img: "https://images.unsplash.com/photo-1596558450268-9c27524ba856?w=400&h=220&fit=crop&crop=faces" },
+              { icon: <Eye className="size-6 text-red-400" />, title: "Потеря интереса", desc: "«Скучно», «неинтересно», «зачем это мне нужно?» --- обычная реакция на школьное обучение.", img: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=400&h=220&fit=crop" },
+              { icon: <TimerOff className="size-6 text-red-400" />, title: "Курсы тянутся годами", desc: "12 месяцев обучения, а ребёнок выгорает за 2 недели. Нет быстрого результата --- нет мотивации.", img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=220&fit=crop" },
             ].map((p, i) => (
-              <motion.div key={i} variants={cardVariant} className="bg-[#12122a] border border-white/[0.06] rounded-2xl p-5 sm:p-7 hover:border-red-500/30 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group animate-shimmer">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <IconBox className="bg-red-500/[0.1] mb-4">
-                  {p.icon}
-                </IconBox>
-                <h3 className="text-sm sm:text-base font-bold mb-2">{p.title}</h3>
-                <p className="text-xs sm:text-sm text-white/50 leading-relaxed">{p.desc}</p>
+              <motion.div key={i} variants={cardVariant} className="bg-[#12122a] border border-white/[0.06] rounded-2xl overflow-hidden hover:border-red-500/30 hover:-translate-y-1 transition-all duration-300 relative group">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-red-500 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                <div className="relative h-[140px] sm:h-[160px] overflow-hidden">
+                  <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 brightness-[0.6] group-hover:brightness-[0.4]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#12122a] via-[#12122a]/60 to-transparent" />
+                  <div className="absolute bottom-3 left-4">
+                    <IconBox className="bg-red-500/[0.2] backdrop-blur-sm border border-red-500/20">
+                      {p.icon}
+                    </IconBox>
+                  </div>
+                </div>
+                <div className="p-5 sm:p-6">
+                  <h3 className="text-sm sm:text-base font-bold mb-2">{p.title}</h3>
+                  <p className="text-xs sm:text-sm text-white/50 leading-relaxed">{p.desc}</p>
+                </div>
               </motion.div>
             ))}
           </StaggerContainer>
