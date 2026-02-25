@@ -484,9 +484,11 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="flex-[1.3] relative w-full min-h-[400px] sm:min-h-[520px] lg:min-h-[650px] lg:-mr-12 hidden md:block"
+            className="flex-[1.5] relative w-full min-h-[450px] sm:min-h-[550px] lg:min-h-[700px] lg:-mr-24 hidden md:block overflow-visible"
           >
-            <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
+            <div className="absolute inset-[-15%] lg:inset-[-20%]">
+              <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
+            </div>
           </motion.div>
         </div>
       </section>
