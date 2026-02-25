@@ -426,22 +426,23 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0c0a20] via-[#06060b] to-[#06060b]" />
-        {/* Animated gradient orbs */}
         <div className="absolute top-[10%] right-[15%] w-[500px] h-[500px] rounded-full bg-purple-600/[0.08] blur-[120px] animate-float pointer-events-none" />
         <div className="absolute bottom-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-cyan-500/[0.06] blur-[100px] pointer-events-none" style={{ animationDelay: "2s" }} />
 
-        {/* Spline 3D Robot - FULL RIGHT SIDE */}
+        {/* Spline 3D Robot - FULL SCREEN canvas so it tracks cursor everywhere */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.3 }}
-          className="absolute top-0 right-0 w-[55%] h-full hidden lg:block pointer-events-auto z-[1]"
+          className="absolute inset-0 hidden lg:block z-[1]"
         >
           <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#06060b] via-transparent to-transparent pointer-events-none" />
         </motion.div>
+        {/* Gradient overlay: covers left side for text readability, fades out toward robot on right */}
+        <div className="absolute inset-0 z-[2] pointer-events-none hidden lg:block" style={{ background: "linear-gradient(to right, #06060b 0%, #06060bee 25%, #06060b99 45%, transparent 65%)" }} />
 
-        <div className="relative z-10 w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-28 sm:py-36">
+        {/* Text content - sits on top, pointer-events only on interactive elements */}
+        <div className="relative z-[3] w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-28 sm:py-36 pointer-events-none">
           <div className="max-w-[600px] text-center lg:text-left">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm text-white/60 mb-6 sm:mb-9 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -454,7 +455,7 @@ export default function Home() {
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }} className="text-[clamp(0.95rem,2.2vw,1.2rem)] text-white/50 max-w-[520px] mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed">
             За 1 месяц он создаст реальный IT-продукт (игру, сайт или бота) с помощью ИИ --- и забудет о бесполезном скроллинге
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }} className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4 flex-wrap mb-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }} className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4 flex-wrap mb-4 pointer-events-auto">
             <a href="#contact" className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 sm:px-10 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-bold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all no-underline inline-flex items-center gap-2 animate-glow">
               Записаться на пробный урок
               <ArrowRight className="size-4 sm:size-5" />
