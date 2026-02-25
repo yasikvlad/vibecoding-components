@@ -448,31 +448,30 @@ export default function Home() {
           <div className="max-w-[600px] text-center lg:text-left">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm text-white/60 mb-6 sm:mb-9 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            Набор открыт --- старт 1 апреля
+            Первая школа Vibe Coding & AI для детей 8-17 лет
           </motion.div>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }} className="text-[clamp(2rem,6.5vw,4.2rem)] font-black leading-[1.06] tracking-[-0.04em] mb-5 sm:mb-7">
-            Превратите ребёнка<br />
-            <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">из потребителя в создателя</span>
+            Превращаем ребёнка<br />
+            <span className="bg-gradient-to-r from-purple-400 via-cyan-400 to-purple-300 bg-clip-text text-transparent animate-gradient-text">из потребителя контента в создателя</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }} className="text-[clamp(0.95rem,2.2vw,1.2rem)] text-white/50 max-w-[520px] mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed">
-            За 1 месяц он создаст реальный IT-продукт (игру, сайт или бота) с помощью ИИ --- и забудет о бесполезном скроллинге
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6 }} className="text-[clamp(0.95rem,2.2vw,1.2rem)] text-white/50 max-w-[540px] mx-auto lg:mx-0 mb-8 sm:mb-10 leading-relaxed">
+            Мы не заставляем зубрить код годами --- мы учим создавать реальные игры, сайты и стартапы с помощью ИИ за 1 месяц, сохраняя критическое мышление
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }} className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4 flex-wrap mb-4 pointer-events-auto">
             <a href="#contact" className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 sm:px-10 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-bold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all no-underline inline-flex items-center gap-2 animate-glow">
-              Записаться на пробный урок
+              Записаться на бесплатный пробный урок
               <ArrowRight className="size-4 sm:size-5" />
             </a>
             <a href="#programs" className="border border-white/[0.15] text-white/60 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-base sm:text-lg font-medium hover:border-purple-400/40 hover:text-white hover:bg-white/[0.03] transition-all no-underline backdrop-blur-sm">
               Узнать больше
             </a>
           </motion.div>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1 }} className="text-xs sm:text-sm text-white/30 mb-8 sm:mb-12">Пробный урок бесплатный --- 1.5 часа, первый мини-проект</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 1 }} className="text-xs sm:text-sm text-white/30 mb-8 sm:mb-12">За 1 вечер ребёнок создаст свой первый мини-проект</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1 }} className="flex items-center justify-center lg:justify-start gap-6 sm:gap-10 flex-wrap mb-8 sm:mb-10">
             {[
               { num: "8-17", label: "Возраст" },
-              { num: "4-8", label: "Детей в группе" },
-              { num: "1-2", label: "Месяца спринт" },
+              { num: "1-2", label: "Мес. спринт" },
               { num: "0", label: "Опыт нужен" },
             ].map((s, i) => (
               <motion.div key={s.label} className="text-center" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 1.2 + i * 0.1 }}>
@@ -484,9 +483,10 @@ export default function Home() {
 
           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1.4 }} className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3">
             {[
-              { icon: <Wifi className="size-3.5 text-purple-300" />, text: "Онлайн (Zoom + Discord)" },
+              { icon: <Globe className="size-3.5 text-purple-300" />, text: "Онлайн" },
+              { icon: <Users className="size-3.5 text-purple-300" />, text: "8-17 лет" },
               { icon: <Clock className="size-3.5 text-purple-300" />, text: "Спринты по 1-2 мес." },
-              { icon: <Lightbulb className="size-3.5 text-purple-300" />, text: "Для новичков" },
+              { icon: <Lightbulb className="size-3.5 text-purple-300" />, text: "Для начинающих" },
             ].map((t) => (
               <span key={t.text} className="inline-flex items-center gap-2 bg-white/[0.04] border border-white/[0.06] rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm text-white/50 backdrop-blur-sm">
                 {t.icon} {t.text}
